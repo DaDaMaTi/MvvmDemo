@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="base"
+            type="com.csmar.lib.base.BaseActivity" />
+        <variable
+            name="mode"
+            type="com.csmar.mvvmdemo.modeview.PlatformViewMode" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:fitsSystemWindows="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/toolbar_bind"
+            android:id="@+id/toolbar_bind"
+            bind:base="@{base}"
+            app:layout_constraintTop_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/scrollView"/>
+
+        <ScrollView
+            android:id="@+id/scrollView"
+            android:background="@color/colorWhile"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar_bind"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:fillViewport="true"
+            android:layout_width="0dp"
+            android:layout_height="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/image"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/dp_58"
+                    android:layout_width="@dimen/dp_173.5"
+                    android:layout_height="@dimen/dp_132.5"
+                    android:src="@mipmap/platform_icon"/>
+
+                <TextView
+                    android:id="@+id/txt"
+                    android:layout_marginTop="@dimen/dp_17"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/sp_18"
+                    android:textColor="@color/color_347EFF"
+                    android:text="@string/third_party_pay_platform"/>
+
+                <include layout="@layout/login_view"
+                    android:id="@+id/login_view"
+                    bind:mode="@{mode}"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"/>
+
+                <ImageView
+                    android:layout_gravity="bottom"
+                    android:layout_marginTop="@dimen/dp_50"
+                    android:layout_marginBottom="@dimen/dp_20"
+                    android:layout_marginStart="@dimen/dp_28"
+                    android:src="@mipmap/ic_college_logo"
+                    android:layout_width="@dimen/dp_95"
+                    android:layout_height="@dimen/dp_95"/>
+
+                <LinearLayout
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <CheckBox
+                        android:id="@+id/check_box"
+                        android:textSize="@dimen/sp_18"
+                        android:layout_marginBottom="@dimen/dp_20"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+
+                    <TextView
+                        android:id="@+id/privacy_txt"
+                        android:textSize="@dimen/sp_18"
+                        android:layout_marginStart="@dimen/dp_14"
+                        android:layout_marginBottom="@dimen/dp_20"
+                        android:text="@{mode.notice}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+
+        <com.csmar.lib.base.view.LoadingPage
+            android:id="@+id/loading"
+            android:visibility="@{mode.loadingVisible ? View.VISIBLE : View.GONE}"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

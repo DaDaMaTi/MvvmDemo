@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true">
+
+    <data>
+        <variable
+            name="base"
+            type="com.csmar.lib.base.BaseActivity" />
+        <variable
+            name="mode"
+            type="com.csmar.mvvmdemo.modeview.NoticesViewMode" />
+    </data>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/toolbar_bind"
+            android:id="@+id/toolbar_bind"
+            bind:base="@{base}"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none">
+
+            <TextView
+                android:id="@+id/tv_content"
+                android:textSize="@dimen/sp_18"
+                android:padding="@dimen/dp_20"
+                android:text="@{mode.mContent}"
+                android:textColor="@color/color_333333"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </ScrollView>
+    </LinearLayout>
+
+</layout>

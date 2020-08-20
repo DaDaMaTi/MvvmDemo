@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--下层画布，红色-->
+    <item>
+        <shape>
+            <solid android:color="@color/color_3399FF" />
+        </shape>
+    </item>
+    <!--上层画布，白色，向左移1dp-->
+    <item android:bottom="@dimen/dp_2">
+        <shape>
+            <solid android:color="@color/colorWhile" />
+        </shape>
+    </item>
+</layer-list>

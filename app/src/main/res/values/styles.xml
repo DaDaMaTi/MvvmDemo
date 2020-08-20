@@ -1,0 +1,126 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <!-- 标题栏颜色-->
+        <item name="colorPrimary">@color/color_1052B0</item>
+        <!-- 顶部栏颜色-->
+        <item name="colorPrimaryDark">@color/color_1052B0</item>
+        <!-- 控制各个控件被选中的颜色-->
+        <item name="colorAccent">@color/color_1052B0</item>
+    </style>
+
+    <style name="ProgressDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowFrame">@null</item><!--边框-->
+        <item name="android:windowIsFloating">true</item><!--是否浮现在activity之上-->
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsTranslucent">true</item><!--半透明-->
+        <item name="android:windowNoTitle">true</item><!--无标题-->
+        <item name="android:windowBackground">@android:color/transparent</item><!--自己想要的背景-->
+        <item name="android:backgroundDimEnabled">true</item><!--启用昏暗背景-->
+        <item name="android:backgroundDimAmount">0.3</item><!--昏暗度-->
+    </style>
+
+    <style name="login_input_sty">
+        <item name="android:layout_marginStart">@dimen/dp_14</item>
+        <item name="android:layout_marginEnd">@dimen/dp_14</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/background_radius_5</item>
+        <item name="android:minHeight">@dimen/dp_80</item>
+    </style>
+
+    <style name="login_input_edit">
+        <item name="android:background">@null</item>
+        <item name="android:layout_gravity">center|left</item>
+        <item name="android:layout_marginStart">@dimen/dp_17</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textColorHint">@color/color_999999</item>
+        <item name="android:textSize">@dimen/sp_21</item>
+    </style>
+
+    <style name="login_or_rejist_bth">
+        <item name="android:background">@drawable/background_radius_5_blue</item>
+        <item name="android:layout_marginStart">@dimen/dp_20</item>
+        <item name="android:layout_marginEnd">@dimen/dp_20</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dp_80</item>
+        <item name="android:textColor">@color/colorWhile</item>
+    </style>
+
+    <style name="login_or_rejist_bth2">
+        <item name="android:background">@drawable/background_radius_login_blue_5</item>
+        <item name="android:layout_marginStart">@dimen/dp_20</item>
+        <item name="android:layout_marginEnd">@dimen/dp_20</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dp_80</item>
+        <item name="android:textColor">@color/color_0A90EE</item>
+    </style>
+
+    <style name="RegisterLinear">
+        <item name="android:layout_marginTop">@dimen/dp_15</item>
+        <item name="android:layout_marginLeft">@dimen/dp_100</item>
+        <item name="android:layout_marginRight">@dimen/dp_100</item>
+        <item name="android:paddingTop">@dimen/dp_18</item>
+        <item name="android:gravity">bottom</item>
+        <item name="android:paddingBottom">@dimen/dp_18</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="RegisterText">
+        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">@color/color_333333</item>
+        <item name="android:layout_width">@dimen/dp_110</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="RegisterEdit">
+        <item name="android:background">@null</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textSize">@dimen/sp_17</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="TransferLiner">
+        <item name="android:paddingTop">@dimen/dp_30</item>
+        <item name="android:paddingBottom">@dimen/dp_30</item>
+        <item name="android:paddingLeft">@dimen/dp_40</item>
+        <item name="android:paddingRight">@dimen/dp_40</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="forget_message">
+        <item name="android:textSize">@dimen/sp_24</item>
+        <item name="android:textColor">@color/color_ff333333</item>
+    </style>
+
+    <style name="PayDetailPopWinAnim" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/pop_enter_anim</item>
+        <item name="android:windowExitAnimation">@anim/pop_exit_anim</item>
+    </style>
+
+    <style name="radio_button_lc">
+        <item name="android:paddingLeft">@dimen/dp_10</item>
+        <item name="android:paddingRight">@dimen/dp_10</item>
+        <item name="android:paddingTop">@dimen/dp_31</item>
+        <item name="android:paddingBottom">@dimen/dp_20</item>
+        <item name="android:layout_marginStart">@dimen/dp_45</item>
+        <item name="android:button">@null</item>
+        <item name="android:textSize">@dimen/sp_30</item>
+        <item name="android:background">@drawable/select_finan_line</item>
+        <item name="android:textColor">@drawable/select_financial_text</item>
+    </style>
+
+    <style name="MyCheckBox" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/select_checkbox_btn</item>
+    </style>
+
+
+</resources>
