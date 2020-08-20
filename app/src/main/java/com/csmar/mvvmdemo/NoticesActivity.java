@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 
 import com.csmar.lib.base.BaseActivity;
 import com.csmar.mvvmdemo.databinding.ActivityNoticesBinding;
-import com.csmar.mvvmdemo.modeview.NoticesViewMode;
+import com.csmar.mvvmdemo.login.modeview.NoticesViewMode;
 
 public class NoticesActivity extends BaseActivity<ActivityNoticesBinding>{
 

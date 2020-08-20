@@ -10,7 +10,7 @@
             type="com.csmar.lib.base.BaseActivity" />
         <variable
             name="mode"
-            type="com.csmar.mvvmdemo.modeview.PlatformViewMode" />
+            type="com.csmar.mvvmdemo.login.modeview.PlatformViewMode" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

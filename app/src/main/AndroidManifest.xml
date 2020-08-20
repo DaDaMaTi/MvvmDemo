@@ -6,14 +6,16 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
+        android:name=".app.BaseApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:name=".app.BaseApp"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PlatformLoginActivity"
+        <activity android:name=".login.InnerLoginActivity"></activity>
+        <activity
+            android:name=".login.PlatformLoginActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="unspecified"
             android:windowSoftInputMode="adjustResize|stateHidden">
@@ -23,14 +25,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".NoticesActivity"
+        <activity
+            android:name=".NoticesActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="unspecified"/>
-
-        <activity android:name=".MainActivity">
-
-        </activity>
+            android:screenOrientation="unspecified" />
+        <activity android:name=".MainActivity"></activity>
     </application>
 
 </manifest>

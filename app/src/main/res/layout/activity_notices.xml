@@ -10,7 +10,7 @@
             type="com.csmar.lib.base.BaseActivity" />
         <variable
             name="mode"
-            type="com.csmar.mvvmdemo.modeview.NoticesViewMode" />
+            type="com.csmar.mvvmdemo.login.modeview.NoticesViewMode" />
     </data>
 
     <LinearLayout

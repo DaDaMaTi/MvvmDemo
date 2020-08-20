@@ -1,4 +1,4 @@
-package com.csmar.mvvmdemo.modeview;
+package com.csmar.mvvmdemo.login.modeview;
 
 import androidx.databinding.ObservableField;
 

@@ -1,4 +1,4 @@
-package com.csmar.mvvmdemo.modeview;
+package com.csmar.mvvmdemo.login.modeview;
 
 import android.text.Editable;
 import android.text.SpannableStringBuilder;
@@ -89,6 +89,8 @@ public class PlatformViewMode extends BaseViewModel {
             public void onError(ApiException e) {
                 loadingVisible.set(false);
                 LogUtil.e("wsd---", e.getErrMessage());
+                // mmvm 中 viewmode 不 与 view 产生联系
+                // 可使用 livedata 进行数据监听，登录成功进行跳转
             }
         }));
 

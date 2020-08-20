@@ -5,7 +5,7 @@
     <data>
         <variable
             name="mode"
-            type="com.csmar.mvvmdemo.modeview.PlatformViewMode" />
+            type="com.csmar.mvvmdemo.login.modeview.PlatformViewMode" />
     </data>
 
     <LinearLayout

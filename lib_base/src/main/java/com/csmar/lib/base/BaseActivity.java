@@ -44,7 +44,7 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     private ViewModelProvider.Factory mFactory;
     protected SparseArray<ViewModel> mSparseArray = new SparseArray<>(2);
 
-    public ObservableField<String> mTitle = new ObservableField<>();
+    public final ObservableField<String> mTitle = new ObservableField<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -201,12 +201,7 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
             int right = left + v.getWidth();
             float x = event.getX();
             float y = event.getY();
-            if (x > left && x < right && y > top && y < bottom) {
-                // 点击的是输入框区域，保留点击EditText的事件
-                return false;
-            } else {
-                return true;
-            }
+            return !(x > left && x < right && y > top && y < bottom);
         }
         // 如果焦点不是EditText则忽略，这个发生在视图刚绘制完，第一个焦点不在EditText上，和用户用轨迹球选择其他的焦点
         return false;
@@ -226,15 +221,14 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
         }
         String [] arr = new String[]{"mCurRootView", "mServedView", "mNextServedView"};
         Field f;
-        Object obj_get;
         for (int i = 0;i < arr.length;i ++) {
             String param = arr[i];
             try{
                 f = imm.getClass().getDeclaredField(param);
-                if (f.isAccessible() == false) {
+                if (!f.isAccessible()) {
                     f.setAccessible(true);
                 }
-                obj_get = f.get(imm);
+                Object obj_get = f.get(imm);
                 if (obj_get != null && obj_get instanceof View) {
                     View v_get = (View) obj_get;
                     if (v_get.getContext() == destContext) {

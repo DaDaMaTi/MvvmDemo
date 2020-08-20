@@ -1,4 +1,4 @@
-package com.csmar.mvvmdemo;
+package com.csmar.mvvmdemo.login;
 
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -11,8 +11,10 @@ import androidx.annotation.NonNull;
 
 import com.csmar.lib.base.BaseActivity;
 import com.csmar.lib.base.util.MyClickableSpan;
+import com.csmar.mvvmdemo.BR;
+import com.csmar.mvvmdemo.R;
 import com.csmar.mvvmdemo.databinding.ActivityPlatformLoginBinding;
-import com.csmar.mvvmdemo.modeview.PlatformViewMode;
+import com.csmar.mvvmdemo.login.modeview.PlatformViewMode;
 
 /**
  * 平台登录, 采用 mmvm 模式开发，数据绑定
