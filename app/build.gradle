@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "com.csmar.mvvmdemo"
-        minSdkVersion 23
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -56,6 +56,7 @@ dependencies {
     implementation rootProject.ext.lifecycle_extensions
 
     debugImplementation  rootProject.ext.debug_leakcanary
+    releaseImplementation rootProject.ext.release_leakcanary
 
     implementation project(':lib_base')
     implementation project(':lib_net')

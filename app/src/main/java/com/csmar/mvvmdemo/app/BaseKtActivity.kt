@@ -1,4 +1,4 @@
-package com.csmar.lib.base
+package com.csmar.mvvmdemo.app
 
 import android.content.Context
 import android.content.res.Configuration
@@ -66,8 +66,8 @@ abstract class BaseKtActivity<T : ViewDataBinding> : AppCompatActivity() {
         if (mActivityProvider == null) {
             mActivityProvider = ViewModelProvider(this)
         }
-        mSparseArray.put(variableId, mActivityProvider!!.get(modelClass))
-        return mActivityProvider!!.get(modelClass)
+        mSparseArray.put(variableId, mActivityProvider!![modelClass])
+        return mActivityProvider!![modelClass]
     }
 
     open fun onBack(view: View?) {

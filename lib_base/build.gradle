@@ -9,7 +9,7 @@ android {
     }
 
     defaultConfig {
-        minSdkVersion 23
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -37,6 +37,6 @@ dependencies {
     api rootProject.ext.lifecycle_viewmodel
     api rootProject.ext.lifecycle_extensions
     implementation rootProject.ext.rxjava2
-    api 'com.kunminx.archi:strict-databinding:3.0.2-beta1'
+    implementation rootProject.ext.converter_gson
 
 }

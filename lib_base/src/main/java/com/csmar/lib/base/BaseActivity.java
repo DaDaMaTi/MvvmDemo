@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.text.method.LinkMovementMethod;
 import android.util.SparseArray;
 import android.view.MotionEvent;
 import android.view.View;
@@ -24,9 +23,9 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.csmar.lib.base.util.AdaptScreenUtils;
 import com.csmar.lib.base.util.BarUtils;
+import com.csmar.lib.base.util.BaseApplication;
 import com.csmar.lib.base.util.LogUtil;
 import com.csmar.lib.base.util.ScreenUtils;
-import com.kunminx.architecture.BaseApplication;
 
 import java.lang.reflect.Field;
 
@@ -41,7 +40,6 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
 
     protected T mBinding;
     private ViewModelProvider mActivityProvider;
-    private ViewModelProvider.Factory mFactory;
     protected SparseArray<ViewModel> mSparseArray = new SparseArray<>(2);
 
     public final ObservableField<String> mTitle = new ObservableField<>();
@@ -90,28 +88,6 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
         return mActivityProvider.get(modelClass);
     }
 
-    protected ViewModelProvider getAppViewModelProvider() {
-        return new ViewModelProvider((BaseApplication) this.getApplicationContext(),
-                getAppFactory(this));
-    }
-
-    private ViewModelProvider.Factory getAppFactory(Activity activity) {
-        Application application = checkApplication(activity);
-        if (mFactory == null) {
-            mFactory = ViewModelProvider.AndroidViewModelFactory.getInstance(application);
-        }
-        return mFactory;
-    }
-
-    private Application checkApplication(Activity activity) {
-        Application application = activity.getApplication();
-        if (application == null) {
-            throw new IllegalStateException("Your activity/fragment is not yet attached to "
-                    + "Application. You can't request ViewModel before onCreate call.");
-        }
-        return application;
-    }
-
     @Override
     public Resources getResources() {
         if (ScreenUtils.isPortrait()) {
@@ -134,6 +110,10 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     protected void onDestroy() {
         fixInputMethodManagerLeak(this);
         super.onDestroy();
+    }
+
+    protected Activity getMyActivity() {
+        return this;
     }
 
     @Override

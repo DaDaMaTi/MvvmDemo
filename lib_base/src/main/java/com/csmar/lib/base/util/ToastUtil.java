@@ -32,6 +32,9 @@ public class ToastUtil {
             }
         }
     }
+    public static void clearToast() {
+        mToast = null;
+    }
     private static Object iNotificationManagerObj;
 
     /**
@@ -127,7 +130,7 @@ public class ToastUtil {
         synchronized (ToastUtil.class) { //加上同步是为了每个toast只要有机会显示出来
             if (toast == null) {
                 isOpenNotify = isNotificationEnabled();
-                toast = Toast.makeText(BaseApplication.getContext(), null, len);
+                toast = Toast.makeText((mContext == null ? BaseApplication.getContext() : mContext), null, len);
                 if (!isOpenNotify) {
                     showSystemToast(toast);
                 }

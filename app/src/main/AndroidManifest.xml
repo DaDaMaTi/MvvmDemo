@@ -19,17 +19,27 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="unspecified"
             android:windowSoftInputMode="adjustResize|stateHidden">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+        </activity>
+        <activity
+            android:name=".NoticesActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="unspecified" />
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="unspecified"
+            android:windowSoftInputMode="adjustResize|stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".NoticesActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="unspecified" />
-        <activity android:name=".MainActivity"></activity>
     </application>
 
 </manifest>

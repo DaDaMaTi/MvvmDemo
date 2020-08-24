@@ -9,8 +9,10 @@ import android.widget.EditText;
 
 import androidx.databinding.ObservableBoolean;
 import androidx.databinding.ObservableField;
+import androidx.lifecycle.MutableLiveData;
 
 import com.csmar.lib.base.BaseViewModel;
+import com.csmar.lib.base.util.GsonUtils;
 import com.csmar.lib.base.util.LogUtil;
 import com.csmar.lib.base.util.SimpleTextWatcher;
 import com.csmar.lib.base.util.ToastUtil;
@@ -20,11 +22,17 @@ import com.csmar.lib.net.ResponseException;
 import com.csmar.mvvmdemo.R;
 import com.csmar.mvvmdemo.api.UserApi;
 import com.csmar.mvvmdemo.app.BaseApp;
+import com.csmar.mvvmdemo.bean.PlatformResponse;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class PlatformViewMode extends BaseViewModel {
+/**
+ * 平台登录 mode
+ * mmvm 中 viewmode 不 与 view 产生联系
+ * 可使用 livedata 进行数据监听，登录成功进行跳转
+ */
+public class PlatformViewMode extends BaseViewModel<PlatformResponse.PlatformUser> {
 
     public final ObservableField<String> name = new ObservableField<>();
 
@@ -70,7 +78,6 @@ public class PlatformViewMode extends BaseViewModel {
 
 
     public void login(String name, String pwd) {
-        LogUtil.e("wsd---", name + "---" + pwd);
         if (TextUtils.isEmpty(name) || TextUtils.isEmpty(pwd)) {
             ToastUtil.showToast("账号或密码为空！");
             return;
@@ -83,14 +90,21 @@ public class PlatformViewMode extends BaseViewModel {
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(platformResponse -> {
             loadingVisible.set(false);
+            if (platformResponse != null) {
+                if (platformResponse.isSuccess()) {
+                    PlatformResponse.PlatformUser platformUser = GsonUtils.parseJSON(platformResponse.data, PlatformResponse.PlatformUser.class);
+                    getLiveData().setValue(platformUser);
+                } else {
+                    ToastUtil.showToast(platformResponse.explain);
+                }
+            }
             LogUtil.e("wsd---", platformResponse.toString());
         }, new ResponseException(BaseApp.getContext()) {
             @Override
             public void onError(ApiException e) {
                 loadingVisible.set(false);
+                ToastUtil.showToast(e.getErrMessage());
                 LogUtil.e("wsd---", e.getErrMessage());
-                // mmvm 中 viewmode 不 与 view 产生联系
-                // 可使用 livedata 进行数据监听，登录成功进行跳转
             }
         }));
 

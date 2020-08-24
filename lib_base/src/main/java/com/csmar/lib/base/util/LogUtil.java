@@ -65,6 +65,12 @@ public class LogUtil {
         }
     }
 
+    public static void d(String Tag, final String msg) {
+        if (DEBUG) {
+            Log.d(Tag, addThreadInfo(msg));
+        }
+    }
+
     public static void d(final String msg, final Throwable t) {
         if (DEBUG) {
             Log.d(TAG, addThreadInfo(msg), t);
