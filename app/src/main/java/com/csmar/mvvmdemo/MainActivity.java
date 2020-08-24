@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnLayoutChan
                             })
                             .build();
                 }
+                customPopWindow.show(login);
             }
         });
         // 第一步获取底部导航栏是否存在
