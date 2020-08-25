@@ -6,12 +6,13 @@ import android.text.Html;
 import androidx.annotation.NonNull;
 
 import com.csmar.lib.base.BaseActivity;
+import com.csmar.lib.base.ToolBarViewMode;
 import com.csmar.mvvmdemo.databinding.ActivityNoticesBinding;
 import com.csmar.mvvmdemo.login.modeview.NoticesViewMode;
 
 public class NoticesActivity extends BaseActivity<ActivityNoticesBinding>{
 
-    private NoticesViewMode viewMode;
+    private NoticesViewMode mViewMode;
     private int mType;
     private StringBuffer message = new StringBuffer();
     private StringBuffer agreement = new StringBuffer();
@@ -23,12 +24,8 @@ public class NoticesActivity extends BaseActivity<ActivityNoticesBinding>{
 
     @Override
     protected void initViewModel() {
-        viewMode = getActivityViewModel(BR.mode, NoticesViewMode.class);
-        mBinding.setVariable(BR.base, this); // 设置标题
-    }
-
-    @Override
-    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        mViewMode = getActivityViewModel(BR.mode, NoticesViewMode.class);
+        mToolBarViewMode = getActivityViewModel(BR.toolbar, ToolBarViewMode.class);
     }
 
     @Override
@@ -37,12 +34,12 @@ public class NoticesActivity extends BaseActivity<ActivityNoticesBinding>{
         mType = getIntent().getIntExtra("type", 0);
         switch (mType) {
             case 0 :   //隐私权限
-                mTitle.set("隐私政策");
-                viewMode.mContent.set(Html.fromHtml(message.toString()).toString());
+                mToolBarViewMode.mTitle.set("隐私政策");
+                mViewMode.mContent.set(Html.fromHtml(message.toString()).toString());
                 break;
             case 1 :   //用户协议
-                mTitle.set("用户协议");
-                viewMode.mContent.set(Html.fromHtml(agreement.toString()).toString());
+                mToolBarViewMode.mTitle.set("用户协议");
+                mViewMode.mContent.set(Html.fromHtml(agreement.toString()).toString());
                 break;
         }
     }
@@ -140,7 +137,7 @@ public class NoticesActivity extends BaseActivity<ActivityNoticesBinding>{
                 "<div style='margin-top:10px;'>如您对本政策或其他相关事宜有疑问，您可以通过客服咨询或邮箱咨询，填写意见反馈。我们将尽快审核所涉问题，并在验证您的用户身份后予以回复。</div>");
         agreement.append("<div style='margin-top:10px;'>引言</div>" +
                 "<div style='margin-top:10px;'>欢迎您使用支付吧APP！</div>" +
-                "<div style='margin-top:10px;'>支付吧APP（以下简称“支付吧”）根据《用户服务协议》（以下简称“本协议”）为您提供服务。</div>" +
+                "<div style='margin-top:10px;'>MvvmDemo APP（以下简称“MvvmDemo”）根据《用户服务协议》（以下简称“本协议”）为您提供服务。</div>" +
                 "<div style='margin-top:10px;'>为使用支付吧事务，请您务必审慎阅读、充分理解本协议各条款内容，特别是免除或者限制责任的条款、对用户权利进行限制的条款等。限制、免责条款或者其他涉及您重大权益的条款可能以加粗形式提示您重点注意。</div>" +
                 "<div style='margin-top:10px;'>除非您已充分阅读、完全理解并接受本协议所有条款，否则您无权注册、登录或使用支付吧服务。您点击“登录（具体措辞详见注册页面）”或您进行注册、使用、获取用户帐号、登录及使用相关服务的行为或者以其他任何明示或者默示方式表示接受本协议的，均视为您已阅读并同意签署本协议。</div>" +
                 "<div style='margin-top:10px;'>如果您因年龄、智力等因素而不具有完全民事行为能力，请在法定监护人（以下简称\"监护人\"）的陪同下阅读和签署本协议。</div>" +

@@ -8,8 +8,8 @@
     <data>
         <import type="android.view.View"/>
         <variable
-            name="base"
-            type="com.csmar.lib.base.BaseActivity" />
+            name="toolbar"
+            type="com.csmar.lib.base.ToolBarViewMode" />
         <variable
             name="mode"
             type="com.csmar.mvvmdemo.login.modeview.LoginViewMode" />
@@ -22,7 +22,7 @@
 
     <include layout="@layout/toolbar_bind"
         android:id="@+id/toolbar_bind"
-        bind:base="@{base}"
+        bind:toolbar="@{toolbar}"
         app:layout_constraintTop_toBottomOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/scrollView"/>
 

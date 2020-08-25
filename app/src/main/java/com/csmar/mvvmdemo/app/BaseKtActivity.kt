@@ -25,9 +25,7 @@ abstract class BaseKtActivity<T : ViewDataBinding> : AppCompatActivity() {
 
     var mBinding:T? = null
     private var mActivityProvider: ViewModelProvider? = null
-    protected var mSparseArray = SparseArray<ViewModel>(2)
-
-    val mTitle = ObservableField<String>()
+    private var mSparseArray = SparseArray<ViewModel>(2)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,36 +77,38 @@ abstract class BaseKtActivity<T : ViewDataBinding> : AppCompatActivity() {
         super.onDestroy()
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        var id = 0
-        if (this.currentFocus != null) {
-            id = this.currentFocus!!.id
-        }
-        val editText = findViewById<EditText>(id)
-        var s = ""
-        if (editText != null) {
-            editText.requestFocus()
-            s = editText.text.toString()
-            LogUtil.e("wsd---edit--", s)
-        }
-        mBinding = DataBindingUtil.setContentView(this, getLayout())
-        mBinding!!.root!!.requestApplyInsets() // 解决横竖屏 fitsSystemWindows 属性失效问题
-        val editText2 = findViewById<EditText>(id)
-        if (editText2 != null) {
-            editText2.requestFocus()
-            editText2.setText(s)
-            editText2.setSelection(s.length)
-        }
-        var i = 0
-        val length = mSparseArray.size()
-        while (i < length) {
-            mBinding!!.setVariable(mSparseArray.keyAt(i), mSparseArray.valueAt(i))
-            i++
-        }
-        mSparseArray.clear()
-        initViewModel()
-        super.onConfigurationChanged(newConfig)
-    }
+//    /**
+//     * 适配横竖屏有变化的
+//     */
+//    override fun onConfigurationChanged(newConfig: Configuration) {
+//        var id = 0
+//        if (this.currentFocus != null) {
+//            id = this.currentFocus!!.id
+//        }
+//        val editText = findViewById<EditText>(id)
+//        var s = ""
+//        if (editText != null) {
+//            editText.requestFocus()
+//            s = editText.text.toString()
+//            LogUtil.e("wsd---edit--", s)
+//        }
+//        mBinding = DataBindingUtil.setContentView(this, getLayout())
+//        mBinding!!.root!!.requestApplyInsets() // 解决横竖屏 fitsSystemWindows 属性失效问题
+//        val editText2 = findViewById<EditText>(id)
+//        if (editText2 != null) {
+//            editText2.requestFocus()
+//            editText2.setText(s)
+//            editText2.setSelection(s.length)
+//        }
+//        var i = 0
+//        val length = mSparseArray.size()
+//        while (i < length) {
+//            mBinding!!.setVariable(mSparseArray.keyAt(i), mSparseArray.valueAt(i))
+//            i++
+//        }
+////        initViewModel()
+//        super.onConfigurationChanged(newConfig)
+//    }
 
     //------------------------------隐藏键盘----------------------------
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {

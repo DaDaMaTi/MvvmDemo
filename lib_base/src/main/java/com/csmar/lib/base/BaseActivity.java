@@ -1,9 +1,7 @@
 package com.csmar.lib.base;
 
 import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.SparseArray;
@@ -16,21 +14,20 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-import androidx.databinding.ObservableField;
 import androidx.databinding.ViewDataBinding;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.csmar.lib.base.util.AdaptScreenUtils;
 import com.csmar.lib.base.util.BarUtils;
-import com.csmar.lib.base.util.BaseApplication;
 import com.csmar.lib.base.util.LogUtil;
 import com.csmar.lib.base.util.ScreenUtils;
 
 import java.lang.reflect.Field;
 
 /**
- * 针对布局横竖屏有变化可以集成这个类，本类已在屏幕变化生命周期进行了适配，后续遇到问题再具体完善
+ * 本类已在屏幕变化生命周期进行了适配，后续遇到问题再具体完善
  *
  * @param <T> 数据绑定类，自动生成的类
  * @author wsd
@@ -39,10 +36,9 @@ import java.lang.reflect.Field;
 public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatActivity {
 
     protected T mBinding;
+    protected ToolBarViewMode mToolBarViewMode;
     private ViewModelProvider mActivityProvider;
     protected SparseArray<ViewModel> mSparseArray = new SparseArray<>(2);
-
-    public final ObservableField<String> mTitle = new ObservableField<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,6 +55,12 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
         if (!ScreenUtils.isTablet()) {
             ScreenUtils.setPortrait(this);
         }
+        mToolBarViewMode.getLiveData().observe(this, new Observer() {
+            @Override
+            public void onChanged(Object o) {
+                finish();
+            }
+        });
     }
 
     /**
@@ -102,9 +104,10 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
         imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
+   /* public final ObservableField<String> mTitle = new ObservableField<>();
     public void onBack(View view) {
         finish();
-    }
+    }*/
 
     @Override
     protected void onDestroy() {
@@ -114,35 +117,6 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
 
     protected Activity getMyActivity() {
         return this;
-    }
-
-    @Override
-    public void onConfigurationChanged(@NonNull Configuration newConfig) {
-        int id = 0;
-        if (this.getCurrentFocus() != null) {
-            id = this.getCurrentFocus().getId();
-        }
-        EditText editText = findViewById(id);
-        String s ="";
-        if (editText != null) {
-            editText.requestFocus();
-            s = editText.getText().toString();
-            LogUtil.e("wsd---edit--", s);
-        }
-        mBinding = DataBindingUtil.setContentView(this, getLayout());
-        mBinding.getRoot().requestApplyInsets(); // 解决横竖屏 fitsSystemWindows 属性失效问题
-        EditText editText2 = findViewById(id);
-        if (editText2 != null) {
-            editText2.requestFocus();
-            editText2.setText(s);
-            editText2.setSelection(s.length());
-        }
-        for (int i = 0, length = mSparseArray.size(); i < length; i++) {
-            mBinding.setVariable(mSparseArray.keyAt(i), mSparseArray.valueAt(i));
-        }
-        mSparseArray.clear();
-        initViewModel();
-        super.onConfigurationChanged(newConfig);
     }
 
     //------------------------------隐藏键盘----------------------------

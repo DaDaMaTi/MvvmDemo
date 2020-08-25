@@ -6,8 +6,8 @@
 
     <data>
         <variable
-            name="base"
-            type="com.csmar.lib.base.BaseActivity" />
+            name="toolbar"
+            type="com.csmar.lib.base.ToolBarViewMode" />
         <variable
             name="mode"
             type="com.csmar.mvvmdemo.login.modeview.NoticesViewMode" />
@@ -20,7 +20,7 @@
 
         <include layout="@layout/toolbar_bind"
             android:id="@+id/toolbar_bind"
-            bind:base="@{base}"/>
+            bind:toolbar="@{toolbar}"/>
 
         <ScrollView
             android:layout_width="match_parent"

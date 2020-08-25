@@ -20,7 +20,7 @@ public class Constants {
     /**
      * 子系统用户账号
      */
-    public final static String USER_ACCOUNT = "user_account";
+    public final static String USER_NAME = "user_name";
 
     /**
      * 子系统用户手机号

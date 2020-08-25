@@ -1,7 +1,8 @@
 package com.csmar.mvvmdemo.api;
 
-import com.csmar.lib.net.RequestApi;
+import com.csmar.lib.net.Response;
 import com.csmar.mvvmdemo.bean.PlatformResponse;
+import com.csmar.mvvmdemo.bean.UserBean;
 
 import io.reactivex.Observable;
 import retrofit2.http.Field;
@@ -22,4 +23,17 @@ public interface UserApi{
     Observable<PlatformResponse> platformLogin(@Path(value = "url", encoded = true) String path,
                                                @Field("userName") String username,
                                                @Field("password") String pwd);
+
+    /**
+     * 子系统登录api
+     *
+     * @param username 账号
+     * @param pwd      密码
+     * @return
+     */
+    @POST("epay/pade/personlogin")
+    @FormUrlEncoded
+    Observable<Response<UserBean>> Innerlogin(@Field("username") String username,
+                                              @Field("password") String pwd,
+                                              @Field("platformUserId") String platformUserId);
 }
