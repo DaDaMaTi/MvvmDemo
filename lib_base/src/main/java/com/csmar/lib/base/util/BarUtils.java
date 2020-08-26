@@ -3,9 +3,11 @@ package com.csmar.lib.base.util;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.os.Build;
 import android.util.Log;
 import android.util.TypedValue;
@@ -666,5 +668,76 @@ public final class BarUtils {
         }
         Log.e("BarUtils", "the view's Context is not an Activity.");
         return null;
+    }
+
+    /**
+     * 获取设备的状态栏高度(px)
+     *
+     * @return 设备的状态栏高度(px)
+     */
+    private int getScreenStatusBarHeight(Context context) {
+        //获取status_bar_height资源的ID
+        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            //根据资源ID获取响应的尺寸值
+            return context.getResources().getDimensionPixelSize(resourceId);
+        }
+        return -1;
+    }
+
+    /**
+     * 获取当前屏幕高度(px)
+     *
+     * @return 当前屏幕高度(px)
+     */
+    private int getScreenHeight(Context context) {
+        return context.getResources().getDisplayMetrics().heightPixels;
+    }
+
+    /**
+     * 判断虚拟导航是否开启
+     * @param context
+     * @param window
+     * @return
+     */
+    public static boolean checkNavigationBarShow(Context context, Window window) {
+        boolean show;
+        Display display = window.getWindowManager().getDefaultDisplay();
+        Point point = new Point();
+        display.getRealSize(point);
+
+        View decorView = window.getDecorView();
+        Configuration conf = context.getResources().getConfiguration();
+        if (Configuration.ORIENTATION_LANDSCAPE == conf.orientation) {
+            View contentView = decorView.findViewById(android.R.id.content);
+            show = (point.x != contentView.getWidth());
+        } else {
+            Rect rect = new Rect();
+            decorView.getWindowVisibleDisplayFrame(rect);
+            show = (rect.bottom != point.y);
+        }
+        return show;
+    }
+
+    //获取是否存在NavigationBar
+    public static boolean checkDeviceHasNavigationBar(Context context) {
+        boolean hasNavigationBar = false;
+        Resources rs = context.getResources();
+        int id = rs.getIdentifier("config_showNavigationBar", "bool", "android");
+        if (id > 0) {
+            hasNavigationBar = rs.getBoolean(id);
+        }
+        try {
+            Class systemPropertiesClass = Class.forName("android.os.SystemProperties");
+            Method m = systemPropertiesClass.getMethod("get", String.class);
+            String navBarOverride = (String) m.invoke(systemPropertiesClass, "qemu.hw.mainkeys");
+            if ("1".equals(navBarOverride)) {
+                hasNavigationBar = false;
+            } else if ("0".equals(navBarOverride)) {
+                hasNavigationBar = true;
+            }
+        } catch (Exception e) {
+        }
+        return hasNavigationBar;
     }
 }

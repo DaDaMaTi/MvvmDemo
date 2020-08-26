@@ -1,38 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:fitsSystemWindows="true"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TextView
-        android:text="123w12312312"
+<!--    <data>-->
+<!--      <variable-->
+<!--          name="mode"-->
+<!--          type="com.csmar.mvvmdemo.viewmode.MainViewMode" />-->
+<!--    </data>-->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"/>
+        android:orientation="vertical"
+        android:fitsSystemWindows="true"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:text="211221211"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"/>
+     <!-- <com.google.android.material.tabs.TabLayout
+         android:id="@+id/tab_layout"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content" />-->
 
-    <View
-        android:layout_width="wrap_content"
-        android:layout_weight="1"
-        android:layout_height="0dp"/>
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/view_pager2"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"
+            android:layout_weight="1"/>
 
-    <Button
-        android:id="@+id/button"
-        android:text="asdasda"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        <com.csmar.lib.base.view.BottomNavigationView
+            android:id="@+id/bottom_navigation_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
-    <TextView
-        android:id="@+id/text"
-        android:text="多余部分"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"/>
-
-</LinearLayout>
+    </LinearLayout>
+</layout>

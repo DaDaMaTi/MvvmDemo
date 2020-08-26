@@ -83,14 +83,15 @@ public final class Utils {
             } else {
                 sApplication = app;
             }
-            sApplication.registerActivityLifecycleCallbacks(ACTIVITY_LIFECYCLE);
+//            sApplication.registerActivityLifecycleCallbacks(ACTIVITY_LIFECYCLE);
         } else {
-            if (app != null && app.getClass() != sApplication.getClass()) {
-                sApplication.unregisterActivityLifecycleCallbacks(ACTIVITY_LIFECYCLE);
-                ACTIVITY_LIFECYCLE.mActivityList.clear();
-                sApplication = app;
-                sApplication.registerActivityLifecycleCallbacks(ACTIVITY_LIFECYCLE);
-            }
+            sApplication = app;
+//            if (app != null && app.getClass() != sApplication.getClass()) {
+//                sApplication.unregisterActivityLifecycleCallbacks(ACTIVITY_LIFECYCLE);
+//                ACTIVITY_LIFECYCLE.mActivityList.clear();
+//                sApplication = app;
+//                sApplication.registerActivityLifecycleCallbacks(ACTIVITY_LIFECYCLE);
+//            }
         }
     }
 
@@ -141,7 +142,7 @@ public final class Utils {
         }
     }
 
-    static boolean isAppForeground() {
+    public static boolean isAppForeground() {
         ActivityManager am = (ActivityManager) Utils.getApp().getSystemService(Context.ACTIVITY_SERVICE);
         if (am == null) {
             return false;
@@ -176,13 +177,12 @@ public final class Utils {
 
         final LinkedList<Activity> mActivityList = new LinkedList<>();
         final Map<Object, OnAppStatusChangedListener> mStatusListenerMap = new HashMap<>();
-        final Map<Activity, Set<OnActivityDestroyedListener>> mDestroyedListenerMap = new HashMap<>();
 
         private int mForegroundCount = 0;
         private int mConfigCount = 0;
         private boolean mIsBackground = false;
 
-        private static void fixSoftInputLeaks(final Activity activity) {
+        protected static void fixSoftInputLeaks(final Activity activity) {
             if (activity == null) {
                 return;
             }
@@ -263,7 +263,6 @@ public final class Utils {
         @Override
         public void onActivityDestroyed(@NonNull Activity activity) {
             mActivityList.remove(activity);
-            consumeOnActivityDestroyedListener(activity);
             fixSoftInputLeaks(activity);
         }
 
@@ -304,30 +303,7 @@ public final class Utils {
             mStatusListenerMap.remove(object);
         }
 
-        void removeOnActivityDestroyedListener(final Activity activity) {
-            if (activity == null) {
-                return;
-            }
-            mDestroyedListenerMap.remove(activity);
-        }
 
-        void addOnActivityDestroyedListener(final Activity activity,
-                                            final OnActivityDestroyedListener listener) {
-            if (activity == null || listener == null) {
-                return;
-            }
-            Set<OnActivityDestroyedListener> listeners;
-            if (!mDestroyedListenerMap.containsKey(activity)) {
-                listeners = new HashSet<>();
-                mDestroyedListenerMap.put(activity, listeners);
-            } else {
-                listeners = mDestroyedListenerMap.get(activity);
-                if (listeners.contains(listener)) {
-                    return;
-                }
-            }
-            listeners.add(listener);
-        }
 
         private void postStatus(final boolean isForeground) {
             if (mStatusListenerMap.isEmpty()) {
@@ -345,20 +321,6 @@ public final class Utils {
             }
         }
 
-        private void consumeOnActivityDestroyedListener(Activity activity) {
-            Iterator<Map.Entry<Activity, Set<OnActivityDestroyedListener>>> iterator
-                    = mDestroyedListenerMap.entrySet().iterator();
-            while (iterator.hasNext()) {
-                Map.Entry<Activity, Set<OnActivityDestroyedListener>> entry = iterator.next();
-                if (entry.getKey() == activity) {
-                    Set<OnActivityDestroyedListener> value = entry.getValue();
-                    for (OnActivityDestroyedListener listener : value) {
-                        listener.onActivityDestroyed(activity);
-                    }
-                    iterator.remove();
-                }
-            }
-        }
 
         private Activity getTopActivityByReflect() {
             try {

@@ -17,21 +17,7 @@ import java.lang.reflect.Proxy;
 public class ToastUtil {
 
     private volatile static ToastUtil mToast;
-    private static Context mContext;
 
-    public ToastUtil(Context mContext) {
-        this.mContext = mContext;
-    }
-
-    public static void init(Context context) {
-        if (mToast == null) {
-            synchronized (ToastUtil.class) {
-                if (mToast == null) {
-                    mToast = new ToastUtil(context);
-                }
-            }
-        }
-    }
     public static void clearToast() {
         mToast = null;
     }
@@ -43,7 +29,7 @@ public class ToastUtil {
      * @return true 为开启了通知， false 是关了通知，默认情况下手机是开启通知的
      */
     private static boolean isNotificationEnabled() {
-        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from((mContext == null ? BaseApplication.getContext() : mContext));
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(Utils.getApp());
         boolean areNotificationsEnabled = notificationManagerCompat.areNotificationsEnabled();
         LogUtil.e("wsd---", "是否开启了通知--" + areNotificationsEnabled);
         return areNotificationsEnabled;
@@ -130,7 +116,7 @@ public class ToastUtil {
         synchronized (ToastUtil.class) { //加上同步是为了每个toast只要有机会显示出来
             if (toast == null) {
                 isOpenNotify = isNotificationEnabled();
-                toast = Toast.makeText((mContext == null ? BaseApplication.getContext() : mContext), null, len);
+                toast = Toast.makeText(Utils.getApp(), null, len);
                 if (!isOpenNotify) {
                     showSystemToast(toast);
                 }

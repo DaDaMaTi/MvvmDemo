@@ -1,10 +1,10 @@
 package com.csmar.mvvmdemo.login
 
-import android.content.Intent
+import android.text.TextUtils
 import androidx.lifecycle.Observer
 import com.csmar.lib.base.ToolBarViewMode
 import com.csmar.lib.base.util.Constants
-import com.csmar.lib.base.util.SharedPreferencesUtil
+import com.csmar.lib.base.util.SpUtils
 import com.csmar.mvvmdemo.MainActivity
 import com.csmar.mvvmdemo.R
 import com.csmar.mvvmdemo.app.BaseKtActivity
@@ -18,9 +18,9 @@ import com.csmar.mvvmdemo.login.modeview.LoginViewMode
 class InnerLoginActivity : BaseKtActivity<ActivityInnerLoginBinding>() {
     var barMode : ToolBarViewMode? = null
     var viewMode : LoginViewMode? = null
-    var mSp : SharedPreferencesUtil? = null
+    var mSp : SpUtils? = null
     var platformUserId : String? = null
-    var intent2 : Intent? = null
+    var userId : String? = null
 
     override fun getLayout(): Int {
         return R.layout.activity_inner_login
@@ -33,8 +33,14 @@ class InnerLoginActivity : BaseKtActivity<ActivityInnerLoginBinding>() {
 
     override fun initData() {
         barMode!!.mTitle.set("系统登录")
-        mSp = SharedPreferencesUtil(this, Constants.PLATFORM_USER)
+        mSp = SpUtils.getInstance(Constants.PLATFORM_USER)
         platformUserId = mSp!!.readString(Constants.PLATFORM_USER_ID, "")
+        userId = mSp!!.readString(Constants.USER_ID, "")
+        if (!TextUtils.isEmpty(userId)) {
+            intent.setClass(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
         viewMode!!.platformId.set(platformUserId)
         barMode!!.liveData.observe(this, Observer<String?> {
             finish()

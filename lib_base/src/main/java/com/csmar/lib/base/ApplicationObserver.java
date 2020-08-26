@@ -1,13 +1,16 @@
 package com.csmar.lib.base;
 
+import android.app.Activity;
+
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
 
 import com.csmar.lib.base.util.LogUtil;
 import com.csmar.lib.base.util.ToastUtil;
+import com.csmar.lib.base.util.Utils;
 
-public class ApplicationObserver implements LifecycleObserver {
+public class ApplicationObserver implements LifecycleObserver{
     private String TAG = this.getClass().getName();
 
     public ApplicationObserver() {
@@ -29,7 +32,7 @@ public class ApplicationObserver implements LifecycleObserver {
      * */
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     public void onStart() {
-        LogUtil.d(TAG, "Lifecycle.Event.ON_START");
+        LogUtil.d(TAG, "Lifecycle.Event.ON_START") ;
     }
 
     /**
@@ -37,7 +40,7 @@ public class ApplicationObserver implements LifecycleObserver {
      * */
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     public void onResume() {
-        LogUtil.d(TAG, "Lifecycle.Event.ON_RESUME");
+        LogUtil.d(TAG, "Lifecycle.Event.ON_RESUME---app 处于是否处于前台---" + Utils.isAppForeground());
     }
 
     /**
@@ -45,7 +48,7 @@ public class ApplicationObserver implements LifecycleObserver {
      * */
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
     public void onPause() {
-        LogUtil.d(TAG, "Lifecycle.Event.ON_PAUSE");
+        LogUtil.d(TAG, "Lifecycle.Event.ON_PAUSEE---app 处于是否处于前台---" + Utils.isAppForeground());
     }
 
     /**
@@ -58,7 +61,7 @@ public class ApplicationObserver implements LifecycleObserver {
 
     /**
      * 永远不会被调用到，系统不会分发调用ON_DESTROY事件
-     * */
+     */
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     public void onDestroy() {
         LogUtil.d(TAG, "Lifecycle.Event.ON_DESTROY");

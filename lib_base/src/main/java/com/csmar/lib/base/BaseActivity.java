@@ -20,14 +20,11 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.csmar.lib.base.util.AdaptScreenUtils;
-import com.csmar.lib.base.util.BarUtils;
 import com.csmar.lib.base.util.LogUtil;
 import com.csmar.lib.base.util.ScreenUtils;
 
-import java.lang.reflect.Field;
-
 /**
- * 本类已在屏幕变化生命周期进行了适配，后续遇到问题再具体完善
+ * activity 数据绑定基类
  *
  * @param <T> 数据绑定类，自动生成的类
  * @author wsd
@@ -44,23 +41,26 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 //        BarUtils.setStatusBarColor(this, Color.TRANSPARENT);
 //        BarUtils.setStatusBarLightMode(this, true);
-        BarUtils.setStatusBarVisibility(getWindow(), true);
+//        BarUtils.setStatusBarVisibility(getWindow(), true);
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, getLayout());
+        mBinding.setLifecycleOwner(this);
         initViewModel();
         for (int i = 0, length = mSparseArray.size(); i < length; i++) {
             mBinding.setVariable(mSparseArray.keyAt(i), mSparseArray.valueAt(i));
         }
-        initData();
         if (!ScreenUtils.isTablet()) {
             ScreenUtils.setPortrait(this);
         }
-        mToolBarViewMode.getLiveData().observe(this, new Observer() {
-            @Override
-            public void onChanged(Object o) {
-                finish();
-            }
-        });
+        initData();
+        if (mToolBarViewMode != null) {
+            mToolBarViewMode.getLiveData().observe(this, new Observer() {
+                @Override
+                public void onChanged(Object o) {
+                    finish();
+                }
+            });
+        }
     }
 
     /**
@@ -109,12 +109,6 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
         finish();
     }*/
 
-    @Override
-    protected void onDestroy() {
-        fixInputMethodManagerLeak(this);
-        super.onDestroy();
-    }
-
     protected Activity getMyActivity() {
         return this;
     }
@@ -159,41 +153,5 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
         }
         // 如果焦点不是EditText则忽略，这个发生在视图刚绘制完，第一个焦点不在EditText上，和用户用轨迹球选择其他的焦点
         return false;
-    }
-
-    /**
-     * 修复软键盘及InputMethodManager导致的内存泄露
-     * @param destContext
-     */
-    private void fixInputMethodManagerLeak(Context destContext) {
-        if (destContext == null) {
-            return;
-        }
-        InputMethodManager imm = (InputMethodManager) destContext.getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (imm == null) {
-            return;
-        }
-        String [] arr = new String[]{"mCurRootView", "mServedView", "mNextServedView"};
-        Field f;
-        for (int i = 0;i < arr.length;i ++) {
-            String param = arr[i];
-            try{
-                f = imm.getClass().getDeclaredField(param);
-                if (!f.isAccessible()) {
-                    f.setAccessible(true);
-                }
-                Object obj_get = f.get(imm);
-                if (obj_get != null && obj_get instanceof View) {
-                    View v_get = (View) obj_get;
-                    if (v_get.getContext() == destContext) {
-                        f.set(imm, null);
-                    } else {
-                        break;
-                    }
-                }
-            }catch(Throwable t){
-                t.printStackTrace();
-            }
-        }
     }
 }

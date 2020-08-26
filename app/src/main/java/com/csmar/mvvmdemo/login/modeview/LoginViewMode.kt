@@ -95,7 +95,7 @@ class LoginViewMode : BaseViewModel<String>(){
                             ToastUtil.showToast(userBeanResponse.msg)
                         }
                     }
-                }, object : ResponseException(BaseApp.getContext()) {
+                }, object : ResponseException(Utils.getApp()) {
                     override fun onError(e: ApiException) {
                         loadingVisible.set(false)
                         ToastUtil.showToast(e.showMessage)

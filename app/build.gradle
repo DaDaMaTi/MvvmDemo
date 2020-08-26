@@ -44,7 +44,6 @@ dependencies {
     implementation rootProject.ext.retrofit
     implementation rootProject.ext.rxjava2_adapter
     implementation rootProject.ext.converter_gson
-//    implementation rootProject.ext.rxpermissions
     implementation rootProject.ext.glide
     annotationProcessor rootProject.ext.glide_compiler
     implementation rootProject.ext.refresh_layout
@@ -54,6 +53,8 @@ dependencies {
     implementation rootProject.ext.lifecycle_livedata
     implementation rootProject.ext.lifecycle_viewmodel
     implementation rootProject.ext.lifecycle_extensions
+    implementation rootProject.ext.viewpager2
+    implementation rootProject.ext.material
 
     debugImplementation  rootProject.ext.debug_leakcanary
     releaseImplementation rootProject.ext.release_leakcanary

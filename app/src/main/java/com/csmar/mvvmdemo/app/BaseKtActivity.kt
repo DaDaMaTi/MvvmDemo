@@ -72,11 +72,6 @@ abstract class BaseKtActivity<T : ViewDataBinding> : AppCompatActivity() {
         finish()
     }
 
-    override fun onDestroy() {
-        fixInputMethodManagerLeak(this)
-        super.onDestroy()
-    }
-
 //    /**
 //     * 适配横竖屏有变化的
 //     */
@@ -146,38 +141,5 @@ abstract class BaseKtActivity<T : ViewDataBinding> : AppCompatActivity() {
         }
         // 如果焦点不是EditText则忽略，这个发生在视图刚绘制完，第一个焦点不在EditText上，和用户用轨迹球选择其他的焦点
         return false
-    }
-
-    /**
-     * 修复软键盘及InputMethodManager导致的内存泄露
-     * @param destContext
-     */
-    private fun fixInputMethodManagerLeak(destContext: Context?) {
-        if (destContext == null) {
-            return
-        }
-        val imm = destContext.applicationContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        val arr = arrayOf("mCurRootView", "mServedView", "mNextServedView")
-        var f: Field
-        var objGet: Any?
-        for (i in arr.indices) {
-            val param = arr[i]
-            try {
-                f = imm.javaClass.getDeclaredField(param)
-                if (!f.isAccessible) {
-                    f.isAccessible = true
-                }
-                objGet = f[imm]
-                if (objGet != null && objGet is View) {
-                    if (objGet.context === destContext) {
-                        f[imm] = null
-                    } else {
-                        break
-                    }
-                }
-            } catch (t: Throwable) {
-                t.printStackTrace()
-            }
-        }
     }
 }

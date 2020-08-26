@@ -14,7 +14,7 @@ import com.csmar.lib.base.BaseChangeActivity;
 import com.csmar.lib.base.ToolBarViewMode;
 import com.csmar.lib.base.util.Constants;
 import com.csmar.lib.base.util.MyClickableSpan;
-import com.csmar.lib.base.util.SharedPreferencesUtil;
+import com.csmar.lib.base.util.SpUtils;
 import com.csmar.mvvmdemo.BR;
 import com.csmar.mvvmdemo.R;
 import com.csmar.mvvmdemo.bean.PlatformResponse;
@@ -31,7 +31,7 @@ public class PlatformLoginActivity extends BaseChangeActivity<ActivityPlatformLo
     private String privacy;
     private String term;
 
-    private SharedPreferencesUtil mSp;
+    private SpUtils mSp;
     private String platformUserId;
 
     @Override
@@ -57,7 +57,7 @@ public class PlatformLoginActivity extends BaseChangeActivity<ActivityPlatformLo
         });
         mToolBarViewMode.mTitle.set("平台登录");
         if (mSp == null) {
-           mSp = new SharedPreferencesUtil(this, Constants.PLATFORM_USER);
+           mSp = SpUtils.getInstance(Constants.PLATFORM_USER);
         }
         platformUserId = mSp.readString(Constants.PLATFORM_USER_ID, "");
        if (!TextUtils.isEmpty(platformUserId)) {

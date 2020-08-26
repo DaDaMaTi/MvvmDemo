@@ -2,27 +2,60 @@ package com.csmar.lib.base.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.text.TextUtils;
+import android.util.SparseArray;
 
 import com.google.gson.Gson;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 本地存储工具类
  */
-public class SharedPreferencesUtil {
-    private SharedPreferences mShare;
+public class SpUtils {
+    private volatile SharedPreferences mShare;
+    private static Map<String, SpUtils> map = new HashMap<>(2);
 
     /**
-     * 构造方法
+     * Return the single {@link SpUtils} instance
      *
-     * @param context 上下文
-     * @param name 文件名称
+     * @param spName The name of sp.
+     * @return the single {@link SpUtils} instance
      */
-    public SharedPreferencesUtil(Context context, String name) {
-        this.mShare = context.getApplicationContext().getSharedPreferences(name, Context.MODE_PRIVATE);
+    public static SpUtils getInstance(String spName) {
+        return getInstance(spName, Context.MODE_PRIVATE);
+    }
+
+    /**
+     * Return the single {@link SpUtils} instance
+     *
+     * @param spName The name of sp.
+     * @param mode   Operating mode.
+     * @return the single {@link SpUtils} instance
+     */
+    public static SpUtils getInstance(String spName, final int mode) {
+        if (TextUtils.isEmpty(spName)) {
+            spName = "spUtils";
+        }
+        SpUtils spUtils = map.get(spName);
+        if (spUtils == null) {
+            synchronized (SpUtils.class) {
+                spUtils = map.get(spName);
+                if (spUtils == null) {
+                    spUtils = new SpUtils(spName, mode);
+                    map.put(spName, spUtils);
+                }
+            }
+        }
+        return spUtils;
+    }
+
+    private SpUtils(String name, int mode) {
+        mShare = Utils.getApp().getSharedPreferences(name, mode);
     }
 
     public boolean readBoolean(String key, boolean defValue) {

@@ -16,6 +16,7 @@ import com.csmar.lib.base.util.GsonUtils;
 import com.csmar.lib.base.util.LogUtil;
 import com.csmar.lib.base.util.SimpleTextWatcher;
 import com.csmar.lib.base.util.ToastUtil;
+import com.csmar.lib.base.util.Utils;
 import com.csmar.lib.net.ApiException;
 import com.csmar.lib.net.NetworkManager;
 import com.csmar.lib.net.ResponseException;
@@ -99,7 +100,7 @@ public class PlatformViewMode extends BaseViewModel<PlatformResponse.PlatformUse
                 }
             }
             LogUtil.e("wsd---", platformResponse.toString());
-        }, new ResponseException(BaseApp.getContext()) {
+        }, new ResponseException(Utils.getApp()) {
             @Override
             public void onError(ApiException e) {
                 loadingVisible.set(false);

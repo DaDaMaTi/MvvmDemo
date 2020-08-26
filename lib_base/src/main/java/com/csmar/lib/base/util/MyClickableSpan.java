@@ -38,7 +38,7 @@ public class MyClickableSpan extends ClickableSpan {
             return;
         }
         intent = new Intent();
-        intent.setClassName(mContext,BaseApplication.getContext().getPackageName() + ".NoticesActivity");
+        intent.setClassName(mContext,Utils.getApp().getPackageName() + ".NoticesActivity");
         switch (index) {
             case 0 : // 跳转隐私
                 intent.putExtra("type", 0);
