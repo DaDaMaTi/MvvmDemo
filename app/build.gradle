@@ -62,4 +62,6 @@ dependencies {
     implementation project(':lib_base')
     implementation project(':lib_net')
 
+//    api 'com.kunminx.archi:strict-databinding:3.0.2-beta1'
+
 }

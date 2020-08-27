@@ -9,9 +9,8 @@ import android.widget.EditText;
 
 import androidx.databinding.ObservableBoolean;
 import androidx.databinding.ObservableField;
-import androidx.lifecycle.MutableLiveData;
 
-import com.csmar.lib.base.BaseViewModel;
+import com.csmar.lib.base.viewmode.BaseViewModel;
 import com.csmar.lib.base.util.GsonUtils;
 import com.csmar.lib.base.util.LogUtil;
 import com.csmar.lib.base.util.SimpleTextWatcher;
@@ -22,7 +21,6 @@ import com.csmar.lib.net.NetworkManager;
 import com.csmar.lib.net.ResponseException;
 import com.csmar.mvvmdemo.R;
 import com.csmar.mvvmdemo.api.UserApi;
-import com.csmar.mvvmdemo.app.BaseApp;
 import com.csmar.mvvmdemo.bean.PlatformResponse;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -35,6 +33,7 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class PlatformViewMode extends BaseViewModel<PlatformResponse.PlatformUser> {
 
+    // 编辑框 应采用 双向数据绑定， 即 xml 采用 @={}
     public final ObservableField<String> name = new ObservableField<>();
 
     public final ObservableField<String> password = new ObservableField<>();

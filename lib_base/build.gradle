@@ -36,7 +36,8 @@ dependencies {
     api rootProject.ext.lifecycle_livedata
     api rootProject.ext.lifecycle_viewmodel
     api rootProject.ext.lifecycle_extensions
-    implementation rootProject.ext.rxjava2
-    implementation rootProject.ext.converter_gson
+    api rootProject.ext.recycle_view
+    api rootProject.ext.rxjava2
+    api rootProject.ext.converter_gson
 
 }

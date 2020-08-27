@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 底部和右边的填充颜色-->
+    <item >
+        <shape>
+            <solid android:color="@color/color_E5E5E5"/>
+        </shape>
+    </item>
+
+    <!-- 距离底部和右边 1px 距离的背景填充颜色-->
+    <item android:top="@dimen/dp_1">
+        <shape>
+            <solid android:color="@color/colorWhile"/>
+        </shape>
+    </item>
+
+</layer-list>

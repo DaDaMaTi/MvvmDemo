@@ -2,6 +2,7 @@
 <layout>
 
     <data>
+        <import type="android.view.View"/>
         <variable
             name="toolbar"
             type="com.csmar.lib.base.ToolBarViewMode" />
@@ -16,6 +17,7 @@
 
         <ImageView
             android:id="@+id/backImg"
+            android:visibility="@{toolbar.isShowBack ? View.VISIBLE : View.GONE}"
             android:onClick="@{(view) -> toolbar.onBack()}"
             android:layout_centerVertical="true"
             android:layout_width="wrap_content"

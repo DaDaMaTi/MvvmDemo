@@ -1,0 +1,49 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type = "android.util.SparseArray"/>
+        <variable name="sparse" type="SparseArray&lt;String>"/>
+        <variable name="index" type="int"/>
+
+    </data>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="@drawable/layer_bottom_line_background"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_marginTop="@dimen/dp_43"
+            android:id="@+id/icon_image"
+            android:scaleType="fitXY"
+            app:imageUrl="@{sparse[index]}"
+            app:error="@{@drawable/ic_launcher_background}"
+            android:layout_width="@dimen/dp_78"
+            android:layout_height="@dimen/dp_70"/>
+
+        <TextView
+            android:id="@+id/tv_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/dp_12"
+            android:layout_marginBottom="@dimen/dp_50"
+            app:content="@{sparse[index]}"
+            android:singleLine="true"
+            android:textColor="@color/color_666666"
+            android:textSize="@dimen/sp_24" />
+
+        <View
+            android:id="@+id/line"
+            android:visibility="gone"
+            android:layout_marginTop="@dimen/dp_50"
+            android:background="@color/color_E5E5E5"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"/>
+
+    </LinearLayout>
+
+</layout>

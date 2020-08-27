@@ -6,6 +6,8 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.csmar.lib.base.BaseActivity;
 import com.csmar.mvvmdemo.databinding.ActivityMainBinding;
 import com.csmar.mvvmdemo.fragment.IndexFragment;
+import com.csmar.mvvmdemo.fragment.MoneyFragment;
+import com.csmar.mvvmdemo.fragment.MyFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +33,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding>{
         mBinding.viewPager2.setOffscreenPageLimit(2); // viewpage2 源码中预加载数量为-1，而viewpage 为1
         fragmentList = new ArrayList<>();
         fragmentList.add(new IndexFragment());
-        fragmentList.add(new IndexFragment());
-        fragmentList.add(new IndexFragment());
+        fragmentList.add(new MoneyFragment());
+        fragmentList.add(new MyFragment());
         mAdapter = new MainFragmentStateAdapter(this, fragmentList);
         mBinding.viewPager2.setAdapter(mAdapter);
 

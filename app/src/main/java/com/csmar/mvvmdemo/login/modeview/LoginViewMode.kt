@@ -5,7 +5,7 @@ import android.text.TextUtils
 import android.text.TextWatcher
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
-import com.csmar.lib.base.BaseViewModel
+import com.csmar.lib.base.viewmode.BaseViewModel
 import com.csmar.lib.base.util.*
 import com.csmar.lib.net.ApiException
 import com.csmar.lib.net.NetworkManager
@@ -13,7 +13,6 @@ import com.csmar.lib.net.Response
 import com.csmar.lib.net.ResponseException
 import com.csmar.mvvmdemo.R
 import com.csmar.mvvmdemo.api.UserApi
-import com.csmar.mvvmdemo.app.BaseApp
 import com.csmar.mvvmdemo.bean.UserBean
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Consumer
@@ -76,14 +75,14 @@ class LoginViewMode : BaseViewModel<String>(){
 
         compositeDisposable.add(NetworkManager.getInstance()
                 .create(UserApi::class.java)
-                .Innerlogin(userName!!.trim(), pwd!!.trim(), platformId.get())
+                .Innerlogin(userName.trim(), pwd.trim(), platformId.get())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(Consumer<Response<UserBean>> { userBeanResponse ->
                     loadingVisible.set(false)
                     if (userBeanResponse != null) {
                         if (userBeanResponse.isSuccess) {
-                            val userBean: UserBean = userBeanResponse.data
+                            var userBean: UserBean = userBeanResponse.data
                             if (userBean != null) {
                                 if (userBean.isComplete === 0) {
                                     liveData.value = userBean

@@ -1,22 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
 
-<!--    <data>-->
-<!--      <variable-->
-<!--          name="mode"-->
-<!--          type="com.csmar.mvvmdemo.viewmode.MainViewMode" />-->
-<!--    </data>-->
-    <LinearLayout
+    <data>
+        <variable
+            name="toolbar"
+            type="com.csmar.lib.base.ToolBarViewMode" />
+        <variable
+            name="adapter"
+            type="com.csmar.mvvmdemo.adapter.IndexAdapter" />
+
+        <variable
+            name="vm"
+            type="com.csmar.mvvmdemo.viewmode.IndexViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:fitsSystemWindows="true"
         android:layout_height="match_parent">
 
-        <TextView
-            android:gravity="center"
-            android:text="asdasdasd"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+        <include layout="@layout/toolbar_bind"
+            android:id="@+id/toolbar_bind"
+            bind:toolbar="@{toolbar}"
+            app:layout_constraintTop_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/refresh"/>
 
-    </LinearLayout>
+        <com.scwang.smart.refresh.layout.SmartRefreshLayout
+            android:id="@+id/refresh"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar_bind"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:fillViewport="true"
+            android:layout_width="0dp"
+            android:layout_height="0dp">
+
+            <com.scwang.smart.refresh.header.ClassicsHeader
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycle"
+                app:spanCount="3"
+                adapter="@{adapter}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                />
+
+        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

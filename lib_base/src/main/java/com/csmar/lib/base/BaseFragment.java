@@ -98,17 +98,19 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment {
         LogUtil.e(TAG, "onDetach()");
     }
 
-    protected <T extends ViewModel> T getFragmentViewModel(@NonNull Class<T> modelClass) {
+    protected <T extends ViewModel> T getFragmentViewModel(int variableId, @NonNull Class<T> modelClass) {
         if (mFragmentProvider == null) {
             mFragmentProvider = new ViewModelProvider(this);
         }
+        mSparseArray.put(variableId, mFragmentProvider.get(modelClass));
         return mFragmentProvider.get(modelClass);
     }
 
-    protected <T extends ViewModel> T getActivityViewModel(@NonNull Class<T> modelClass) {
+    protected <T extends ViewModel> T getActivityViewModel(int variableId, @NonNull Class<T> modelClass) {
         if (mActivityProvider == null) {
             mActivityProvider = new ViewModelProvider(mActivity);
         }
+        mSparseArray.put(variableId, mActivityProvider.get(modelClass));
         return mActivityProvider.get(modelClass);
     }
 }

@@ -115,8 +115,8 @@ abstract class BaseKtActivity<T : ViewDataBinding> : AppCompatActivity() {
             // 自动隐藏键盘
             val v = currentFocus
             if (isShouldHideInput(v, ev)) {
-                val imm = this.applicationContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm?.hideSoftInputFromWindow(v!!.windowToken, 0)
+                var imm = this.applicationContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm!!.hideSoftInputFromWindow(v!!.windowToken, 0)
             }
             return super.dispatchTouchEvent(ev)
         }

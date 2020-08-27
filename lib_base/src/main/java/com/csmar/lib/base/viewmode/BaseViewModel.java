@@ -1,4 +1,4 @@
-package com.csmar.lib.base;
+package com.csmar.lib.base.viewmode;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
