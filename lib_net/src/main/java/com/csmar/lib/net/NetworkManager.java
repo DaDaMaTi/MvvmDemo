@@ -1,18 +1,14 @@
 package com.csmar.lib.net;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.X509TrustManager;
-import javax.security.cert.CertificateException;
 
 import okhttp3.Cache;
-import okhttp3.CacheControl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -34,6 +30,9 @@ public class NetworkManager {
     private static Retrofit retrofit;
     private static volatile RequestApi request = null;
 
+    //缓存时间
+    int CACHE_TIMEOUT = 10 * 1024 * 1024;
+
     public static NetworkManager getInstance() {
         if (mInstance == null) {
             synchronized (NetworkManager.class) {
@@ -49,8 +48,10 @@ public class NetworkManager {
      * 初始化必要对象和参数
      */
     public void init(final Context context) {
-        //声明缓存地址和大小
-        Cache cache = new Cache(context.getCacheDir(),2 * 1024 * 1024);
+        //缓存存放的文件
+        File httpCacheDirectory = new File(context.getCacheDir(), "college_cache");
+        //声明缓存地址和大小  缓存拦截器，当没有网络连接的时候自动读取缓存中的数据，缓存存放时间默认为3天。
+        Cache cache = new Cache(httpCacheDirectory, CACHE_TIMEOUT);
         // 初始化okhttp
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
@@ -58,29 +59,8 @@ public class NetworkManager {
         builder.addInterceptor(logging);
 
         builder.cache(cache)
+                .addInterceptor(new CacheInterceptor(context)) // 无网络读取缓存
                 .retryOnConnectionFailure(true) // //默认重试一次，若需要重试N次，则要实现拦截器
-                .addInterceptor(new Interceptor() {
-                    @Override
-                    public Response intercept(Chain chain) throws IOException {
-                        // 有网络的情况下，缓存时间是：20秒。也就是在20秒内的请求都是获取本地的缓存。当网络断开后，会设置一个离线的缓存，为上面设置的时间
-                        // maxAge ：设置最大失效时间，失效则不使用
-                        // maxStale ：设置最大失效时间，失效则不使用
-                        // max-stale在请求头设置有效，在响应头设置无效。
-                        // max-stale和max-age同时设置的时候，缓存失效的时间按最长的算
-                        Request request = chain.request();
-                        if (!isNetworkReachable(context)) {
-                            int maxStale = 7 * 24 * 60 * 60; // 离线时缓存保存1周,单位:秒
-                            CacheControl tempCacheControl = new CacheControl.Builder()
-                                    .onlyIfCached()
-                                    .maxStale(maxStale, TimeUnit.SECONDS)
-                                    .build();
-                            request = request.newBuilder()
-                                    .cacheControl(tempCacheControl)
-                                    .build();
-                        }
-                        return chain.proceed(request);
-                    }
-                })
                 .addNetworkInterceptor(new Interceptor() {
                     @Override
                     public Response intercept(Chain chain) throws IOException {
@@ -128,22 +108,6 @@ public class NetworkManager {
             throw new RuntimeException("Api service is null!");
         }
         return retrofit.create(service);
-    }
-
-    /**
-     * 网络是否连接
-     *
-     * @param context
-     * @return
-     */
-    private boolean isNetworkReachable(Context context) {
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        @SuppressLint("MissingPermission") NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected()) {
-            // 网络连接
-            return true;
-        }
-        return false;
     }
 
     //定义一个信任所有证书的TrustManager

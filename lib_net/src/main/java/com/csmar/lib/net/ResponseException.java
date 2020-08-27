@@ -1,13 +1,10 @@
 package com.csmar.lib.net;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.ParseException;
-import android.util.Log;
 
 import com.google.gson.JsonParseException;
+import com.google.gson.stream.MalformedJsonException;
 
 import org.json.JSONException;
 
@@ -40,6 +37,16 @@ public abstract class ResponseException implements Consumer<Throwable> {
      */
     public static final int HTTP_ERROR = 1003;
 
+    /**
+     * 证书错误
+     */
+    public static final int SSL_ERROR = 1004;
+
+    /**
+     * 主机未知
+     */
+    public static final int HOST_ERROR = 1005;
+
     private Context mContext;
 
     public ResponseException(Context context) {
@@ -58,9 +65,13 @@ public abstract class ResponseException implements Consumer<Throwable> {
         ApiException ex;
         if (e instanceof JsonParseException
                 || e instanceof JSONException
-                || e instanceof ParseException) {
+                || e instanceof ParseException
+                || e instanceof MalformedJsonException) {
             //解析错误
             ex = new ApiException(PARSE_ERROR, e.getMessage(), "解析错误！");
+            return ex;
+        } else if (e instanceof javax.net.ssl.SSLException) {
+            ex = new ApiException(SSL_ERROR, e.getMessage(), "证书验证失败");
             return ex;
         } else if (e instanceof ConnectException) {
             //网络错误
@@ -68,7 +79,7 @@ public abstract class ResponseException implements Consumer<Throwable> {
             return ex;
         } else if (e instanceof UnknownHostException) {
             //连接错误
-            ex = new ApiException(NETWORK_ERROR, e.getMessage(), "网络错误！");
+            ex = new ApiException(HOST_ERROR, e.getMessage(), "主机地址未知！");
             return ex;
         }else if (e instanceof SocketTimeoutException) {
             //连接错误
@@ -83,10 +94,10 @@ public abstract class ResponseException implements Consumer<Throwable> {
             //未知错误
             ex = new ApiException(UNKNOWN, e.getMessage(), "错误！");
             if (mContext != null) {
-                if (!isNetworkReachable(mContext)) {
+                if (!NetworkUtil.isNetworkReachable(mContext)) {
                     ex = new ApiException(NETWORK_ERROR, e.getMessage(), "网络未连接！");
                 } else {
-                    if (isNetworkAvailable(mContext)) {
+                    if (NetworkUtil.isNetworkAvailable(mContext)) {
                         ex = new ApiException(NETWORK_ERROR, e.getMessage(), "网络连接不可用！");
                     }
                 }
@@ -96,45 +107,4 @@ public abstract class ResponseException implements Consumer<Throwable> {
     }
 
     public abstract void onError(ApiException e);
-
-    /**
-     * 网络是否连接
-     *
-     * @param context
-     * @return
-     */
-    private boolean isNetworkReachable(Context context) {
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        @SuppressLint("MissingPermission") NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected()) {
-            // 网络连接
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * 网络状态
-     *
-     * @param context
-     * @return
-     */
-    private boolean isNetworkAvailable(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (cm == null) {
-        } else {
-            //如果仅仅是用来判断网络连接
-            //则可以使用 cm.getActiveNetworkInfo().isAvailable();
-            @SuppressLint("MissingPermission") NetworkInfo[] info = cm.getAllNetworkInfo();
-            if (info != null) {
-                for (int i = 0; i < info.length; i++) {
-                    if (info[i].getState() == NetworkInfo.State.CONNECTED) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
 }
