@@ -2,11 +2,16 @@ package com.csmar.mvvmdemo.fragment;
 
 import android.content.Context;
 import android.util.SparseArray;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.csmar.lib.base.BaseFragment;
+import com.csmar.lib.base.face.IndexItemOnclick;
 import com.csmar.lib.base.ToolBarViewMode;
+import com.csmar.lib.base.util.LogUtil;
+import com.csmar.lib.base.util.ToastUtil;
 import com.csmar.mvvmdemo.BR;
 import com.csmar.mvvmdemo.R;
 import com.csmar.mvvmdemo.adapter.IndexAdapter;
@@ -16,13 +21,12 @@ import com.csmar.mvvmdemo.viewmode.IndexViewModel;
 /**
  * 首页
  */
-public class IndexFragment extends BaseFragment<FragmentIndexBinding> {
+public class IndexFragment extends BaseFragment<FragmentIndexBinding> implements IndexItemOnclick {
 
     private SparseArray<String> sparseArray = new SparseArray(4);
 
     private IndexViewModel mViewMode;
 
-    IndexAdapter mAdapter;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -62,5 +66,16 @@ public class IndexFragment extends BaseFragment<FragmentIndexBinding> {
 //        mAdapter = new IndexAdapter(mActivity);
 //        mBinding.recycle.setAdapter(mAdapter);
 //        mAdapter.setData(sparseArray);
+
+        mBinding.getAdapter().setIndexItemOnclick(this);
+
+    }
+
+    @Override
+    public void onItemClick(RecyclerView.ViewHolder viewHolder) {
+        LogUtil.e("dadada", viewHolder.toString());
+        TextView view = viewHolder.itemView.findViewById(R.id.tv_text);
+        String txt = view.getText().toString();
+        ToastUtil.showToast(txt);
     }
 }

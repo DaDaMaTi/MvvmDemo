@@ -5,6 +5,12 @@
         <import type = "android.util.SparseArray"/>
         <variable name="sparse" type="SparseArray&lt;String>"/>
         <variable name="index" type="int"/>
+        <!--<variable
+            name="holder"
+            type="androidx.recyclerview.widget.RecyclerView.ViewHolder" />
+        <variable
+            name="itemClick"
+            type="com.csmar.lib.base.face.IndexItemOnclick" />-->
 
     </data>
 
@@ -19,8 +25,7 @@
             android:layout_marginTop="@dimen/dp_43"
             android:id="@+id/icon_image"
             android:scaleType="fitXY"
-            app:imageUrl="@{sparse[index]}"
-            app:error="@{@drawable/ic_launcher_background}"
+            app:imageUrlPath="@{sparse[index]}"
             android:layout_width="@dimen/dp_78"
             android:layout_height="@dimen/dp_70"/>
 

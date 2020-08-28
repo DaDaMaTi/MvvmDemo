@@ -1,21 +1,12 @@
 package com.csmar.mvvmdemo;
 
-import androidx.fragment.app.Fragment;
-import androidx.viewpager2.widget.ViewPager2;
-
 import com.csmar.lib.base.BaseActivity;
 import com.csmar.mvvmdemo.databinding.ActivityMainBinding;
-import com.csmar.mvvmdemo.fragment.IndexFragment;
-import com.csmar.mvvmdemo.fragment.MoneyFragment;
-import com.csmar.mvvmdemo.fragment.MyFragment;
 
-import java.util.ArrayList;
-import java.util.List;
-
+/**
+ * 通过 ViewPage2BindingAdapter 中的 initMainViewPage2 绑定 viewpage2 (xml)
+ */
 public class MainActivity extends BaseActivity<ActivityMainBinding>{
-
-    private List<Fragment> fragmentList;
-    MainFragmentStateAdapter mAdapter;
 
     @Override
     protected int getLayout() {
@@ -29,26 +20,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding>{
 
     @Override
     protected void initData() {
-        mBinding.viewPager2.setUserInputEnabled(true);
-        mBinding.viewPager2.setOffscreenPageLimit(2); // viewpage2 源码中预加载数量为-1，而viewpage 为1
-        fragmentList = new ArrayList<>();
-        fragmentList.add(new IndexFragment());
-        fragmentList.add(new MoneyFragment());
-        fragmentList.add(new MyFragment());
-        mAdapter = new MainFragmentStateAdapter(this, fragmentList);
-        mBinding.viewPager2.setAdapter(mAdapter);
-
-        mBinding.viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-
-            @Override
-            public void onPageSelected(int position) {
-                mBinding.bottomNavigationView.setSelectedItemId(position);
-            }
-        });
-
-        mBinding.bottomNavigationView.setOnNavigationItemSelectedListener(position -> {
-            mBinding.viewPager2.setCurrentItem(position);
-        });
     }
 
     @Override

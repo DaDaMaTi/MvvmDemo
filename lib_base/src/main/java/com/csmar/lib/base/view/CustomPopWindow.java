@@ -12,7 +12,7 @@ import android.widget.PopupWindow;
 
 import androidx.annotation.NonNull;
 
-import com.csmar.lib.base.Interface.PopDialogInterface;
+import com.csmar.lib.base.face.PopDialogInterface;
 import com.csmar.lib.base.R;
 
 /**

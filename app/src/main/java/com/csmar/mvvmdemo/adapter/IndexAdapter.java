@@ -13,7 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.csmar.lib.base.BaseRecyclerViewAdapter;
+import com.csmar.lib.base.face.IndexItemOnclick;
 import com.csmar.lib.base.util.LogUtil;
+import com.csmar.lib.base.util.ToastUtil;
 import com.csmar.mvvmdemo.R;
 import com.csmar.mvvmdemo.databinding.ItemIndexBinding;
 
@@ -25,6 +27,11 @@ public class IndexAdapter extends BaseRecyclerViewAdapter<IndexAdapter.IndexView
     private final static String TAG = "IndexAdapter_";
 
     private SparseArray<String> sparseArray;
+    private IndexItemOnclick indexItemOnclick;
+
+    public void setIndexItemOnclick(IndexItemOnclick indexItemOnclick) {
+        this.indexItemOnclick = indexItemOnclick;
+    }
 
     public void setData(SparseArray sparseArray) {
         this.sparseArray = sparseArray;
@@ -52,13 +59,13 @@ public class IndexAdapter extends BaseRecyclerViewAdapter<IndexAdapter.IndexView
         return (sparseArray != null) ? sparseArray.size() : 0;
     }
 
-    @BindingAdapter({"imageUrl", "error"})
-    public static void loadImage(ImageView imageView, String url,  Drawable errorDrawable) {
+    @BindingAdapter({"imageUrlPath"})
+    public static void loadImage(ImageView imageView, String url) {
         url = url.split(",")[0];
         LogUtil.e(TAG, "url---" + url);
         Glide.with(imageView.getContext())
                 .load(Integer.parseInt(url))
-                .error(errorDrawable)
+                .error(R.mipmap.ic_launcher)
                 .into(imageView);
     }
 
@@ -69,10 +76,17 @@ public class IndexAdapter extends BaseRecyclerViewAdapter<IndexAdapter.IndexView
         textView.setText(content);
     }
 
-    class IndexViewHolder extends RecyclerView.ViewHolder{
 
+    class IndexViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public IndexViewHolder(@NonNull View itemView) {
             super(itemView);
+        }
+
+        @Override
+        public void onClick(View view) {
+            if (indexItemOnclick != null) {
+                indexItemOnclick.onItemClick(this);
+            }
         }
     }
 }

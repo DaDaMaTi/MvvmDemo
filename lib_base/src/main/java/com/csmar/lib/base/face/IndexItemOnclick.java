@@ -1,4 +1,4 @@
-package com.csmar.lib.base.Interface;
+package com.csmar.lib.base.face;
 
 import androidx.recyclerview.widget.RecyclerView;
 
